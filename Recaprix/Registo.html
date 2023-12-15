@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <!-- Configurações gerais do documento -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Registo</title>
+
+    <!-- Estilos CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: url('RecaLOGO.png'); /* Define a imagem de fundo */
+            background-size: cover; /* Cobrir toda a área de fundo */
+            background-position: center; /* Centralizar o fundo */
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Fundo branco semi-transparente para o formulário */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 90%;
+        }
+
+        input,
+        select {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-bottom: 12px;
+            box-sizing: border-box;
+            font-size: 70%;
+        }
+
+        .gender-group {
+            margin-bottom: 12px;
+        }
+
+        .gender-group label {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 70%;
+        }
+
+        .checkbox-label {
+            display: block;
+            margin-bottom: 12px;
+            color: #333;
+            font-size: 100%;
+        }
+
+        button {
+            background-color: #000000;
+            color: #708090;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 70%;
+        }
+
+        button.inicio {
+            background-color: #000000;
+            color: #708090;
+            font-size: 20px; /* Tamanho da fonte ajustado */
+            padding: 10px 20px; /* Preenchimento ajustado */
+            border: none;
+            border-radius: 8px; /* Raio da borda ajustado */
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 10%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Cabeçalho com botão "Inicio" -->
+    <header>
+        <a href="Index.html".html">
+            <button class="inicio">Inicio</button>
+        </a>
+    </header>
+
+    <!-- Formulário de Registo -->
+    <form id="registroForm" action="processar_registro.php" method="post">
+        <h2>Registo</h2>
+
+        <!-- Mensagem de sugestão para quem já tem conta -->
+        <p style="text-align: center; font-size: 80%; margin-top: 15px;">
+            Já tem conta? Então faça <a href="Login.html"> Login</a>
+
+        <!-- Campos do formulário -->
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="senha">Senha:</label>
+        <input type="password" id="senha" name="senha" required>
+
+        <label for="data_nascimento">Data de Nascimento:</label>
+        <input type="date" id="data_nascimento" name="data_nascimento" required>
+
+        <label for="telefone">Número de Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required>
+
+        <label for="morada">Morada:</label>
+        <input type="text" id="morada" name="morada" required>
+
+        <label for="codigo_postal">Código Postal:</label>
+        <input type="text" id="codigo_postal" name="codigo_postal" required>
+
+        <label for="nacionalidade">Nacionalidade:</label>
+        <input type="text" id="nacionalidade" name="nacionalidade" required>
+
+        <label for="nif">NIF (Número de Identificação Fiscal):</label>
+        <input type="text" id="nif" name="nif" required>
+
+        <!-- Grupo de opções de género -->
+        <div class="gender-group">
+            <label for="masculino">
+                <input type="radio" id="masculino" name="genero" value="masculino" required>
+                Masculino
+            </label>
+            <label for="feminino">
+                <input type="radio" id="feminino" name="genero" value="feminino" required>
+                Feminino
+            </label>
+            <label for="outro">
+                <input type="radio" id="outro" name="genero" value="outro" required>
+                Outro
+            </label>
+        </div>
+
+        <!-- Aceitar Termos e Condições -->
+        <div class="checkbox-label">
+            <input type="checkbox" name="aceitar_termos" required>
+            <label>Aceitar Termos e Condições</label>
+        </div>
+
+        <!-- Botão de Registo -->
+        <button type="button" onclick="validarFormulario()">Registar</button>
+    </form>
+
+    <!-- Script JavaScript para validação do formulário -->
+    <script>
+        function validarFormulario() {
+            var formulario = document.getElementById('registroForm');
+            var campos = formulario.querySelectorAll('input, select, textarea');
+            var email = document.getElementById('email').value;
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Verificar campos obrigatórios
+            for (var i = 0; i < campos.length; i++) {
+                if (campos[i].hasAttribute('required') && campos[i].value.trim() === '') {
+                    alert('Por favor, preencha todos os campos obrigatórios.');
+                    return;
+                }
+            }
+
+            // Verificar formato do email
+            if (!emailRegex.test(email)) {
+                alert('Por favor, insira um endereço de e-mail válido.');
+                return;
+            }
+            formulario.submit(); // Envio do formulário se a validação for bem-sucedida
+        }
+    </script>
+</body>
+
+</html>
